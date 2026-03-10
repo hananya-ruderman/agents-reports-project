@@ -1,5 +1,7 @@
+import { ObjectId } from "mongodb";
+
 export interface User{
-    id: string;
+    id?: string;
     agentCode:  string;
     fullName: string;
     passwordHash: string;
@@ -8,12 +10,12 @@ export interface User{
 }
 
 export interface Report{
-    id: number | string,
-    userId: number | string,
+    _id?: string,
+    userId: string,
     category: string,
     urgency: string,
     message: string,
-    imagePath: string,
+    imagePath?: string,
     sourceType: "json" | "csv",
     createdAt: Date
 }
@@ -21,8 +23,13 @@ export interface Report{
 declare global {
     namespace Express{
         interface Request{
-            user?: User
+            user?: User & {
+                role: "Admin" | "Agent"
+            };
+            file?: File & {path: string};
+
         }
     }
 }
+
 

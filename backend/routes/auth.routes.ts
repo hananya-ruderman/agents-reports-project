@@ -1,9 +1,10 @@
 import express from "express";
-import { userLogin } from "../controllers/auth.controllers.js";
+import { getMe, userLogin } from "../controllers/auth.controllers.js";
+import { authenticateToken } from "../middlewares/authMiddleware.js";
 
-const router = express.Router()
+const router = express.Router();
 
-router.route("/login")
-    .post(userLogin)
+router.post("/login", userLogin);
+router.get("/me",authenticateToken, getMe)
 
-export default router
+export default router;

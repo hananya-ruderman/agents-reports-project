@@ -1,35 +1,21 @@
-import { MongoClient, Db } from 'mongodb';
-import dotenv from 'dotenv';
-import dns from "dns";
+import { MongoClient, Db } from "mongodb";
+import bcrypt from "bcryptjs";
+import type { User } from "../models/types.js";
 
-dns.setDefaultResultOrder("ipv4first");
 
-dotenv.config(); 
-
-const uri = process.env.DB_URI as string; 
-
-const client = new MongoClient(uri);
-
-let db: Db;
+let db: Db | null = null;
 
 export async function connectDB() {
-    console.log(uri);
-  try {
-    await client.connect();
-    db = client.db("ReportsSystem");
-    console.log('Connected to MongoDB');
-    return db
-  } catch (err) {
-    console.error('Connection error', err);
-  }
+  const client = new MongoClient(process.env.DB_URI as string);
+  await client.connect();
+  db = client.db();
+  console.log("MongoDB connected");
 }
 
-
-
-
-
-
-export function getDB() {
-  if (!db) throw new Error('Database not connected');
+export function getDB(): Db {
+  if (!db) throw new Error("Database not connected");
   return db;
 }
+
+
+
