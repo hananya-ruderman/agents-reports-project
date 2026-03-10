@@ -41,7 +41,7 @@ export async function registerUser(agentCode: string, fullName: string, role: "A
 export async function listUsers() {
     const allUsers = await getAllUsers();
     return allUsers.map(u => ({
-        id: u.id,
+        id: u._id!.toString(),
         agentCode: u.agentCode,
         fullName: u.fullName,
         role: u.role,

@@ -40,7 +40,7 @@ export async function getReportById(id: string) {
     const db = getDB()
     const reports = db.collection<Report>("Reports")
   const result = await reports.findOne({
-    id: new ObjectId(id)
+    _id: new ObjectId(id)
   });
 
   return result;

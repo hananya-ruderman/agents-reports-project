@@ -55,3 +55,12 @@ export async function getAllUsers(): Promise<User[]> {
 
     return await users.find().toArray();
 }
+
+export async function getUserById(id: string): Promise<User | null> {
+  const db = getDB();
+  const users = db.collection<User>("Users");
+
+  return users.findOne({
+    _id: new ObjectId(id)
+  });
+}

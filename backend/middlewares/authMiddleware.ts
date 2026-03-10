@@ -1,15 +1,17 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from 'jsonwebtoken'
+import { AuthUser } from "../models/types.js";
 
 export function authenticateToken(req: Request, res: Response, next: NextFunction){
+    console.log("ppppp");
     
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(" ")[1]
     if (!token) return res.status(401).json({error: "token is missing"})
 
-    jwt.verify(token, process.env.JWT_SECRET as string, (err, user)=>{
+    jwt.verify(token, process.env.JWT_SECRET as string, (err, decoded)=>{
         if (err) return res.status(401).json({error: "invalid token"})
-        req.user = user as any
+        req.user = decoded as AuthUser
         next()
     })
 }

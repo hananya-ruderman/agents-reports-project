@@ -2,15 +2,18 @@ import { Request, Response } from "express";
 import {createAgentsReport, fetchReportById, fetchReports}from "../services/reports.service.js";
 
 export async function createReport(req: Request, res: Response) {
-
+  
+  console.log(req.body);
+  console.log(req.file);
+  
   const { category, urgency, message } = req.body;
-
+  
   if (!category || !urgency || !message) {
     return res.status(400).json({ error: "Missing fields" });
   }
 
   const imagePath = req.file?.path;
-
+  
   const report = await createAgentsReport(
     req.user!.id!,
     category,

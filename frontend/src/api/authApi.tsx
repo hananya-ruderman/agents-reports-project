@@ -14,9 +14,10 @@ export async function loginRequest(
         body: JSON.stringify(data)
     })
     if (!res.ok) {
-    const text = await res.text()    
-    throw new Error(`login failed: ${res.status} - ${text}`)
+    throw new Error(`login failed`)
 }
+    console.log(res);
+    
     return res.json()
 }
 
