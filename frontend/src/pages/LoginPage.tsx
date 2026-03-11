@@ -1,52 +1,27 @@
-import { useState } from "react";
+// pages/LoginPage.tsx
+import React, { useState } from "react";
 import { useAuthStore } from "../store/authStore";
-import { loginRequest } from "../api/authApi";
+import { Input } from ".././components/Input";
+import { Button } from ".././components/Button";
 
+export const LoginPage: React.FC = () => {
+  const login = useAuthStore((s) => s.login);
+  const [agentCode, setAgentCode] = useState("");
+  const [password, setPassword] = useState("");
 
-export default function LoginPage(){
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await login({ agentCode, password });
+  };
 
-    const [agentCode,setAgentCode] = useState("");
-    const [password,setPassword] = useState("");
-
-    const login = useAuthStore(state => state.login)
-
-    async function handleLogin(e:any){
-        e.preventDefault()
-
-        try {
-            const json = {agentCode, password}
-            const data = await loginRequest(json)
-            login(data.user, data.token)
-        }catch (err){
-            console.log(err);
-            
-        }
-
-        
-    }
-
-    return (
-        <div>
-            <form onSubmit={handleLogin}>
-
-                <label id="agentCode">agentCode</label>
-                <input
-                    type="text"
-                    id="agentCode"
-                    value={agentCode}
-                    onChange={e => setAgentCode(e.target.value)}/>
-
-                <label id="password">password</label>
-                <input
-                     type="password"
-                     id="password" value={password}
-                     onChange={e => setPassword(e.target.value)}/>
-
-                <button
-                     type="submit">log in
-                </button>
-
-            </form>
-        </div>
-    )
-}
+  return (
+    <div className="login-page">
+      <form onSubmit={handleSubmit} className="login-form">
+        <h2>Agent Login</h2>
+        <Input placeholder="Agent Code" value={agentCode} onChange={(e) => setAgentCode(e.target.value)} />
+        <Input placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <Button type="submit">Login</Button>
+      </form>
+    </div>
+  );
+};

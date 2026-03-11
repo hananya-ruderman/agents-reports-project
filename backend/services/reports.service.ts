@@ -1,5 +1,5 @@
 import { createReport, getAllReports, getReportById } from "../dataAccess/Reports.dal.js";
-import { Report } from "../models/types.js";
+import { Report, NewReport } from "../models/types.js";
 import { ObjectId } from "mongodb";
 
 export async function createAgentsReport(
@@ -10,17 +10,34 @@ export async function createAgentsReport(
   imagePath?: string
 ) {
 
-  const report: Omit<Report, "_id"> = {
+  const report:NewReport = {
     userId,
     category,
     urgency,
     message,
     imagePath,
-    sourceType: "json",
+    sourceType: "form",
     createdAt: new Date()
   };
 
   return createReport(report);
+}
+
+export async function createAgentsReports(reports: Partial<NewReport>[]){
+  const createdList = []
+  for (const report of reports){
+    const created = await createAgentsReport(
+      report.userId!,
+      report.category!,
+      report.urgency!,
+      report.message!,
+      report.imagePath
+    );
+    createdList.push(created)
+    
+  }
+  return createdList
+
 }
 
 export async function fetchReports(userId: string, role: string, filter: any) {

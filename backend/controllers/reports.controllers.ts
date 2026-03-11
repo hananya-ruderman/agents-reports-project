@@ -1,10 +1,31 @@
 import { Request, Response } from "express";
-import {createAgentsReport, fetchReportById, fetchReports}from "../services/reports.service.js";
+import csv from "csv-parser";
+import fs from "fs";
+import { UploadedFile } from "express-fileupload";
+import {createAgentsReport, createAgentsReports, fetchReportById, fetchReports}from "../services/reports.service.js";
 
 export async function createReport(req: Request, res: Response) {
   
-  console.log(req.body);
-  console.log(req.file);
+  // if (req.files && Object.keys(req.files).length > 0){
+  //   console.log(req.file);
+    
+  // }
+
+  let imagePath: string | undefined;
+
+  if (req.files?.image) {
+
+    const image = req.files?.image as UploadedFile;
+
+
+    const uploadPath = `uploads/${Date.now()}_${image.name}`;
+
+    await image.mv(uploadPath);
+
+    imagePath = uploadPath;
+
+  }
+
   
   const { category, urgency, message } = req.body;
   
@@ -12,7 +33,6 @@ export async function createReport(req: Request, res: Response) {
     return res.status(400).json({ error: "Missing fields" });
   }
 
-  const imagePath = req.file?.path;
   
   const report = await createAgentsReport(
     req.user!.id!,
@@ -24,6 +44,46 @@ export async function createReport(req: Request, res: Response) {
 
   res.status(201).json({ report });
 }
+
+
+export const uploadCsvReports = async (req: Request, res: Response) => {
+
+  if (!req.files?.csv) {
+    return res.status(400).json({ message: "CSV file required" });
+  }
+
+  const file = req.files?.csv as UploadedFile;
+
+  const filePath = `uploads/${Date.now()}_${file.name}`;
+
+  await file.mv(filePath);
+
+  const reports: any[] = [];
+
+  fs.createReadStream(filePath)
+    .pipe(csv())
+    .on("data", (row) => {
+
+      reports.push({
+        userId: req.user!.id,
+        category: row.category,
+        urgency: row.urgency,
+        message: row.message,
+        sourceType: "csv"
+      });
+
+    })
+    .on("end", async () => {
+
+      await createAgentsReports(reports);
+
+      res.json({
+        inserted: reports.length
+      });
+
+    });
+
+};
 
 export async function getReports(req: Request, res: Response) {
 

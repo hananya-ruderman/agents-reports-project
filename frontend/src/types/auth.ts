@@ -9,3 +9,4 @@ export type LoginRequest = {
     agentCode: string
     password: string
 }
+

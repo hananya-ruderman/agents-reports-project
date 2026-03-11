@@ -18,9 +18,11 @@ export interface Report{
     urgency: string,
     message: string,
     imagePath?: string,
-    sourceType: "json" | "csv",
+    sourceType: "form" | "csv",
     createdAt: Date
 }
+
+export type NewReport  = Omit<Report, "_id">
 
 // request types
 
@@ -33,8 +35,7 @@ declare global {
     namespace Express{
         interface Request{
             user?: AuthUser;
-            file?: File & {path: string};
-
+            
         }
     }
 }
