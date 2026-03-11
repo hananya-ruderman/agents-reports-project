@@ -4,7 +4,7 @@ import { getCurrentUser } from "../services/auth.services.js";
 
 
 export async function userLogin(req: Request, res: Response) {
-
+  
   const { agentCode, password } = req.body;
 
   if (!agentCode || !password) {

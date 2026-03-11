@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken'
 import { AuthUser } from "../models/types.js";
 
 export function authenticateToken(req: Request, res: Response, next: NextFunction){
-    console.log("ppppp");
     
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(" ")[1]
