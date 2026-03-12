@@ -5,17 +5,15 @@ import bcrypt from "bcryptjs";
 
 export async function loginUser(agentCode: string, password: string) {
   const user: User | null = await getUserByAgentCode(agentCode);
-  
   if (!user) return null;
   
   const match = await bcrypt.compare(password, user.passwordHash)
-  if (!match) return null;
+  if (!match) throw new Error("password dosn`t match");
 
-  const id = user._id!.toString();
 
 
   const token = jwt.sign(
-    { id, role: user.role },
+    { agentCode: user.agentCode, role: user.role },
     process.env.JWT_SECRET as string,
     { expiresIn: "1h" }
   );
@@ -23,7 +21,6 @@ export async function loginUser(agentCode: string, password: string) {
   return {
     token,
     user: {
-      id,
       agentCode: user.agentCode,
       fullName: user.fullName,
       role: user.role,

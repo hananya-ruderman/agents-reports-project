@@ -1,5 +1,4 @@
 import React from "react";
-import "./FileUpload.css";
 
 interface FileUploadProps {
   onChange: (file: File) => void;

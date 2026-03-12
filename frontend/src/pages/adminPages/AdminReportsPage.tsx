@@ -12,7 +12,7 @@ export const ReportsAdmin: React.FC = () => {
 
   useEffect(() => {
     fetchReports();
-  }, [fetchReports]);
+  }, []);
 
   const handleFilter = async () => {
     await fetchReports(); 

@@ -7,8 +7,8 @@ export const DashboardAdmin: React.FC = () => {
   return (
     <div className="dashboard-admin">
       <h2>Admin Dashboard</h2>
-      <Button onClick={() => navigate("/users-admin")}>Manage Users</Button>
-      <Button onClick={() => navigate("/reports-admin")}>View Reports</Button>
+      <Button onClick={() => navigate("/users")}>Manage Users</Button>
+      <Button onClick={() => navigate("/reports")}>View Reports</Button>
     </div>
   );
 };

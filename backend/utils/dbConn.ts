@@ -1,6 +1,5 @@
 import { MongoClient, Db } from "mongodb";
-import bcrypt from "bcryptjs";
-import type { User } from "../models/types.js";
+
 
 
 let db: Db | null = null;

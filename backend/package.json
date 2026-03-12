@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "csv-parser": "^3.2.0",
     "dotenv": "^17.3.1",
@@ -13,13 +14,15 @@
     "node": "^22.22.1",
     "nodemon": "^3.1.14",
     "pg": "^8.20.0",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0"
   },
   "name": "backend",
   "version": "1.0.0",
   "main": "server.ts",
   "type": "module",
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/express-fileupload": "^1.5.1",
@@ -32,7 +35,7 @@
     "typescript": "^5.9.3"
   },
   "scripts": {
-    "dev": "nodemon --watch './**/*.ts' --ext ts --exec \"node --loader ts-node/esm\" server.ts",
+    "dev": "nodemon --watch . --ext ts --exec tsx server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

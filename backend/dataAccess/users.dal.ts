@@ -7,7 +7,8 @@ import { ObjectId } from "mongodb";
 export async function getUserByAgentCode(agentCode: string): Promise<User | null> {
   const db = getDB();
   const users = db.collection<User>("Users");
-  return await users.findOne({ agentCode });
+  const user = await users.findOne({ agentCode});
+  return user
 }
 
 export async function createSuperAdmin() {

@@ -1,10 +1,10 @@
-import { create } from "zustand"
+import { create, type StateCreator} from "zustand"
+import {persist} from "zustand/middleware"
 import { authService } from "../services/authServices"
 import type { AuthStore, LoginRequest } from "../types/index"
 
 
-
-export const useAuthStore = create<AuthStore>((set) => ({
+export const useAuthStore= create <AuthStore>()(persist((set) => ({
 
   user: null,
   token: null,
@@ -15,10 +15,6 @@ export const useAuthStore = create<AuthStore>((set) => ({
     set({ isLoading: true })
 
     const res = await authService.login(data)
-
-    localStorage.setItem("token", res.token)
-    localStorage.setItem("user", JSON.stringify(res.user))
-
     set({
       token: res.token,
       user: res.user,
@@ -28,28 +24,16 @@ export const useAuthStore = create<AuthStore>((set) => ({
 
   logout: () => {
 
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
-
+    
     set({
       user: null,
       token: null
     })
   },
 
-  loadUserFromStorage: () => {
+  
 
-    const token = localStorage.getItem("token")
-    const user = localStorage.getItem("user")
-
-    if (token && user) {
-
-      set({
-        token,
-        user: JSON.parse(user)
-      })
-
-    }
-  }
-
-}))
+}),{
+  name: "usersStorage"
+}
+))

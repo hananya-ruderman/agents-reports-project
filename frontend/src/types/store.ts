@@ -6,7 +6,6 @@ export interface AuthStore {
     isLoading: boolean;
     login: (data: LoginRequest) => Promise<void>;
     logout: () => void;
-    loadUserFromStorage: () => void
 }
 
 export interface ReportStore {
