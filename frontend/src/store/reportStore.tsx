@@ -13,6 +13,12 @@ export const useReportStore = create<ReportStore>((set, get) => ({
     set({ reports, isLoading: false })
   },
 
+  fetchReportsWithFilter: async (filter) => {
+    set({ isLoading: true })
+    const reports = await reportsService.getFilteredReports(filter) 
+    set({ reports, isLoading: false })
+  },
+
   createReports: async (formData: CreateReportDTO) => {
     set({ isLoading: true })
     await reportsService.createReport(formData)

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import csv from "csv-parser";
 import fs from "fs";
 import { UploadedFile } from "express-fileupload";
-import {createAgentsReport, createAgentsReports, fetchReportById, fetchReports}from "../services/reports.service.js";
+import {createAgentsReport, createAgentsReports, fetchReportById, fetchReports, fetchReportsByFilter}from "../services/reports.service.js";
 
 export async function createReport(req: Request, res: Response) {
   
@@ -87,13 +87,25 @@ export const uploadCsvReports = async (req: Request, res: Response) => {
 
 export async function getReports(req: Request, res: Response) {
 
+  
+  const reports = await fetchReports(
+    req.user!.id!,
+    req.user!.role,
+    
+  );
+
+  res.json({ reports });
+}
+
+export async function getReportsByFilters(req: Request, res: Response) {
+
   const filter: any = {};
 
   if (req.query.category) filter.category = req.query.category;
   if (req.query.urgency) filter.urgency = req.query.urgency;
   if (req.query.agentCode) filter.agentCode = req.query.agentCode;
-
-  const reports = await fetchReports(
+  
+  const reports = await fetchReportsByFilter(
     req.user!.id!,
     req.user!.role,
     filter

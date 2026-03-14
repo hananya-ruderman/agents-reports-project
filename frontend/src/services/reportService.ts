@@ -1,5 +1,5 @@
 import api from "../api/axios"
-import type { Report, CreateReportDTO } from "../types/index"
+import type { Report, CreateReportDTO, ReportFilters } from "../types/index"
 
 export const reportsService = {
 
@@ -35,6 +35,11 @@ export const reportsService = {
 
   async getReports(): Promise<Report[]> {
     const res = await api.get("/reports")
+    return res.data.reports
+  },
+
+  async getFilteredReports(filter: ReportFilters): Promise<Report[]> {
+    const res = await api.get("/reports/filterReports", {params: {...filter}})
     return res.data.reports
   },
 

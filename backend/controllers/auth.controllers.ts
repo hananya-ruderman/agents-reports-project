@@ -4,6 +4,7 @@ import { getCurrentUser } from "../services/auth.services.js";
 
 
 export async function userLogin(req: Request, res: Response) {
+  console.log(req.cookies["loggedInUser"]);
   const { agentCode, password } = req.body;
   if (!agentCode || !password) {
     return res
@@ -16,7 +17,8 @@ export async function userLogin(req: Request, res: Response) {
     if (!result) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
-    res.cookie("loggedInUser", result.token, {maxAge: 1000**10, sameSite: "none"})
+    res.cookie("loggedInUser", result.token, {maxAge: 1000*60*60*60, secure:true, sameSite: "none"})
+    
     return res.status(200).json(result);
   } catch (err) {
     console.error(err);

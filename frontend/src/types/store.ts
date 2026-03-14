@@ -13,6 +13,7 @@ export interface ReportStore {
     filters: ReportFilters;
     isLoading: boolean;
     fetchReports: () => Promise<void>;
+    fetchReportsWithFilter: (filter: ReportFilters) => Promise<void>;
     createReports: (data: CreateReportDTO)=> Promise<void>;
     uploadCsv: (file: File) => Promise<void>;
     setFilters: (filters: ReportFilters) => void

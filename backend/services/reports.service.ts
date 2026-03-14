@@ -1,4 +1,4 @@
-import { createReport, getAllReports, getReportById } from "../dataAccess/Reports.dal.js";
+import { createReport, getAllReports, getReportById, getReportsByFilter } from "../dataAccess/Reports.dal.js";
 import { Report, NewReport } from "../models/types.js";
 import { ObjectId } from "mongodb";
 
@@ -40,13 +40,25 @@ export async function createAgentsReports(reports: Partial<NewReport>[]){
 
 }
 
-export async function fetchReports(userId: string, role: string, filter: any) {
+
+export async function fetchReports(userId: string, role: string) {
+  const filter: Partial<Report>= {}
+  if (role === "Agent") {
+    filter.userId = userId;
+  }
+  
+
+  return getAllReports(filter);
+}
+
+export async function fetchReportsByFilter(userId: string, role: string, filter: any) {
 
   if (role === "Agent") {
     filter.userId = userId;
   }
+  
 
-  return getAllReports(filter);
+  return getReportsByFilter(filter);
 }
 
 export async function fetchReportById(userId: string, role: string, id: string) {

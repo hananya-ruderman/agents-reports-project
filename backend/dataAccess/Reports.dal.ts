@@ -18,17 +18,17 @@ export async function createReports(reports: NewReport[]){
     return result.insertedIds
 }
 
-export async function getAllReports(filter?: any){
+export async function getAllReports(filter: Partial<Report>){
     const db = getDB()
     const reports = db.collection<Report>("Reports")
-    const result = await reports.find().toArray()
+    const result = await reports.find(filter).toArray()
     return result
 }
 
 
 
 export async function getReportsByFilter(filter: Partial<Report> = {}) {
-
+  console.log(filter);
   const mongoFilter: any = { ...filter };
 
   if (filter._id) {
@@ -37,10 +37,8 @@ export async function getReportsByFilter(filter: Partial<Report> = {}) {
     const db = getDB()
     const reports = db.collection<Report>("Reports")
 
-  const result = await reports
-    .find(mongoFilter)
-    .toArray();
-
+  const result = await reports.find(mongoFilter).toArray();
+  console.log(result);
   return result;
 }
 
