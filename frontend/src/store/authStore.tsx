@@ -1,4 +1,4 @@
-import { create, type StateCreator} from "zustand"
+import { create} from "zustand"
 import {persist} from "zustand/middleware"
 import { authService } from "../services/authServices"
 import type { AuthStore, LoginRequest } from "../types/index"

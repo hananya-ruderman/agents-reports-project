@@ -9,8 +9,12 @@ export const useReportStore = create<ReportStore>((set, get) => ({
 
   fetchReports: async () => {
     set({ isLoading: true })
-    const reports = await reportsService.getReports() 
-    set({ reports, isLoading: false })
+    setTimeout(async ()=>{
+
+      const reports = await reportsService.getReports() 
+       set({ reports, isLoading: false })
+
+    }, 3000)
   },
 
   fetchReportsWithFilter: async (filter) => {

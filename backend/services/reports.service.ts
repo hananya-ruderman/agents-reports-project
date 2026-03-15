@@ -1,6 +1,5 @@
 import { createReport, getAllReports, getReportById, getReportsByFilter } from "../dataAccess/Reports.dal.js";
 import { Report, NewReport } from "../models/types.js";
-import { ObjectId } from "mongodb";
 
 export async function createAgentsReport(
   userId: string,
