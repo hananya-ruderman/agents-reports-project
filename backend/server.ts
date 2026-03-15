@@ -9,6 +9,11 @@ import { createSuperAdmin } from "./dataAccess/users.dal.js";
 import morgan from 'morgan'
 import cookieParser from 'cookie-parser'
 import fileUploade from 'express-fileupload'
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
@@ -37,6 +42,8 @@ app.use(morgan('tiny'))
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use(fileUploade({createParentPath: true}))
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 
 app.use("/auth", auth);

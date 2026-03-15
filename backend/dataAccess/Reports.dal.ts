@@ -22,6 +22,7 @@ export async function getAllReports(filter: Partial<Report>){
     const db = getDB()
     const reports = db.collection<Report>("Reports")
     const result = await reports.find(filter).toArray()
+    console.log(result);
     return result
 }
 

@@ -23,6 +23,6 @@ export interface ReportStore {
 export interface UserStore {
     users : User[];
     isLoading: boolean;
-    fetchUsres: ()=> Promise<void>;
+    fetchUsers: ()=> Promise<void>;
     createUser: (user: UserDTO) => void
 }

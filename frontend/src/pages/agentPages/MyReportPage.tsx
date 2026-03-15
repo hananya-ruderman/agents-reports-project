@@ -8,7 +8,7 @@ export const ReportsMy: React.FC = () => {
 
   useEffect(() => {
     fetchReports();
-  }, [fetchReports]);
+  }, []);
 
   return <Table data={reports} />;
 };

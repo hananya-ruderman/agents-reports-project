@@ -2,7 +2,12 @@ import { Request, Response } from "express";
 import csv from "csv-parser";
 import fs from "fs";
 import { UploadedFile } from "express-fileupload";
+import path from "path";
 import {createAgentsReport, createAgentsReports, fetchReportById, fetchReports, fetchReportsByFilter}from "../services/reports.service.js";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename)
 
 export async function createReport(req: Request, res: Response) {
   const { category, urgency, message } = req.body;
@@ -19,9 +24,10 @@ export async function createReport(req: Request, res: Response) {
     const image = req.files?.image as UploadedFile;
 
 
-    const uploadPath = `C:/Users/User/Desktop/agents reports/backend/uploads/${Date.now()}_${image.name}`
+    const uploadPath = `${Date.now()}_${image.name}`
+
 ;
-    await image.mv(uploadPath);
+    await image.mv(path.join(__dirname, "uploads", uploadPath));
 
     imagePath = uploadPath;
 
@@ -46,6 +52,7 @@ export const uploadCsvReports = async (req: Request, res: Response) => {
   }
 
   const file = req.files?.csv as UploadedFile;
+
 
   const filePath = `uploads/${Date.now()}_${file.name}`;
 

@@ -13,7 +13,7 @@ router.route("/")
 router.route("/filterReports")
     .get(authenticateToken, getReportsByFilters)
 
-router.route("/csv")
+router.route("/upload-csv")
     .post(authenticateToken, uploadCsvReports);
 
 router.route("/:id")

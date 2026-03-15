@@ -1,29 +1,28 @@
-import React from "react";
-
-interface TableProps {
-  data: Record<string, any>[];
+interface TableProps<T> {
+  data: T[];
 }
 
-export const Table: React.FC<TableProps> = ({ data }) => {
-  if (!data.length) return <p>No data</p>;
+export const Table = <T extends Object>({ data }: TableProps<T>) => {
+  if (data.length == 0) return <p>No data</p>;
 
-  const columns = Object.keys(data[0]);
-
+  const columns = Object.keys(data[0]) as (keyof T)[];
   return (
     <table className="data-table">
       <thead>
         <tr>
           {columns.map((col) => (
-            <th key={col}>{col}</th>
+            <th key={String(col)}>{String(col)}</th>
           ))}
         </tr>
       </thead>
 
       <tbody>
-        {data.map((row, i) => (
+        {data.map((row: any, i: any) => (
           <tr key={i}>
             {columns.map((col) => (
-              <td key={col}>{String(row[col])}</td>
+              <td key={String(col)}>
+                {col === "imagePath" ? <img src={`http://localhost:5002/uploads/${row[col]}`} alt="image" /> : row[col]}
+              </td>
             ))}
           </tr>
         ))}

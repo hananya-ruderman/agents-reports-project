@@ -39,3 +39,9 @@
 .data-table th {
   background-color: #f0f0f0;
 }
+
+img{
+  height: 50px;
+  width: 60px;
+  object-fit: cover;
+}

@@ -10,7 +10,7 @@ export interface User {
 
 export interface UserDTO {
   agentCode: string;
-  password: string;
+  fullName: string;
   role: Role
 }
 

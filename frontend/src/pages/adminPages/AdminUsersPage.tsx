@@ -7,48 +7,52 @@ import type { UserDTO, Role } from "../../types/index";
 
 export const UsersAdmin: React.FC = () => {
   const users = useUserStore((s) => s.users);
-  const fetchUsers = useUserStore((s) => s.fetchUsres);
+  const fetchUsers = useUserStore((s) => s.fetchUsers);
   const createUser = useUserStore((s) => s.createUser);
+  const isLoading = useUserStore((s)=> s.isLoading)
 
   const [agentCode, setAgentCode] = useState("");
-  const [password, setPassword] = useState(""); 
+  const [fullName, setFullName] = useState(""); 
   const [role, setRole] = useState<Role>("Agent"); 
 
-
-
+  console.log(typeof users);
   useEffect(() => {
     fetchUsers();
-  }, [fetchUsers]);
+  }, []);
 
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const userData: UserDTO = {
-        agentCode, password, role,
+const userData: UserDTO = {
+        agentCode, fullName, role,
     };
 
-    await createUser(userData);
+    createUser(userData);
 
     setAgentCode("");
-    setPassword("");
+    setFullName("");
     setRole("Agent");
   };
+  
+  if (isLoading){
+    return <div className="loading">loading</div>
+  }
 
+  
   return (
+    
     <div className="users-admin">
       <h2>Users Admin</h2>
 
       <form onSubmit={handleSubmit} className="users-form">
         <Input
-          placeholder="Name"
+          placeholder="agentCode"
           value={agentCode}
           onChange={(e) => setAgentCode(e.target.value)}
         />
         <Input
-          placeholder="Email"
-          type="email"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          placeholder="fullName"
+          value={fullName}
+          onChange={(e) => setFullName(e.target.value)}
         />
         <Input
           placeholder="Role"
@@ -59,7 +63,9 @@ export const UsersAdmin: React.FC = () => {
       </form>
 
       <h3>All Users</h3>
+      
       <Table data={users} />
     </div>
-  );
+  )
+  ;
 };

@@ -1,19 +1,20 @@
 import { create } from "zustand"
 import { userService } from "../services/userService"
 import type { UserStore, UserDTO } from "../types/index"
+import { createUserApi, fetchUsersApi } from "../api/userApi"
 
 export const useUserStore = create<UserStore>((set, get) => ({
   users: [],
   isLoading: false,
 
-  fetchUsres: async () => {
+  fetchUsers: async () => {
     set({ isLoading: true })
-    const users = await userService.fetchUsers() 
+    const users = await fetchUsersApi() 
     set({ users, isLoading: false })
   },
 
   createUser: async (user: UserDTO) => {
-    await userService.createUser(user)
-    get().fetchUsres() 
+    await createUserApi(user)
+    get().fetchUsers() 
   }
 }))
