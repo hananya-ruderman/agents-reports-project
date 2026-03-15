@@ -53,8 +53,8 @@ export async function createUser(user: Omit<User, "_id">) {
 export async function getAllUsers(): Promise<User[]> {
     const db = getDB();
     const users = db.collection<User>("Users");
-
-    return await users.find().toArray();
+    const result = await users.find().toArray();
+    return result
 }
 
 export async function getUserById(id: string): Promise<User | null> {

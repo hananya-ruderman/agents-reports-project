@@ -14,14 +14,14 @@ export async function registerUser(agentCode: string, fullName: string, role: "A
     }else{
         initialPassword = password
     }
-
+    console.log(initialPassword);
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(initialPassword, saltRounds);
     const newUser: Omit<User, "id"> = {
         agentCode,
         fullName,
         role,
-        passwordHash: initialPassword,
+        passwordHash,
         createdAt: new Date()
     };
 

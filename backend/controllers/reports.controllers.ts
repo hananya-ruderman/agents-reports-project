@@ -5,11 +5,12 @@ import { UploadedFile } from "express-fileupload";
 import {createAgentsReport, createAgentsReports, fetchReportById, fetchReports, fetchReportsByFilter}from "../services/reports.service.js";
 
 export async function createReport(req: Request, res: Response) {
+  const { category, urgency, message } = req.body;
   
-  // if (req.files && Object.keys(req.files).length > 0){
-  //   console.log(req.file);
-    
-  // }
+  if (!category || !urgency || !message) {
+    return res.status(400).json({ error: "Missing fields" });
+  }
+  console.log(req.user);
 
   let imagePath: string | undefined;
 
@@ -18,22 +19,14 @@ export async function createReport(req: Request, res: Response) {
     const image = req.files?.image as UploadedFile;
 
 
-    const uploadPath = `uploads/${Date.now()}_${image.name}`;
-
+    const uploadPath = `C:/Users/User/Desktop/agents reports/backend/uploads/${Date.now()}_${image.name}`
+;
     await image.mv(uploadPath);
 
     imagePath = uploadPath;
 
   }
 
-  
-  const { category, urgency, message } = req.body;
-  
-  if (!category || !urgency || !message) {
-    return res.status(400).json({ error: "Missing fields" });
-  }
-
-  
   const report = await createAgentsReport(
     req.user!.id!,
     category,

@@ -21,7 +21,7 @@ export async function createNewUser(req :Request, res: Response){
 export async function listAllUsers(req: Request, res: Response) {
     try {
         const users = await listUsers();
-        res.status(200).json({ users });
+        res.status(200).send( users );
     } catch {
         res.status(500).json({ error: "Server error" });
     }

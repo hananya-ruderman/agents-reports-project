@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 export async function loginUser(agentCode: string, password: string) {
   const user: User | null = await getUserByAgentCode(agentCode);
   if (!user) return null;
+  console.log(user);
   
   const match = await bcrypt.compare(password, user.passwordHash)
   if (!match) throw new Error("password dosn`t match");
